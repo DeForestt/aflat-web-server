@@ -1,0 +1,90 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My User Project CRUD",
+    "description": "My User Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Box",
+      "description": "Manage and run boxes"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/box/run": {
+      "post": {
+        "tags": [
+          "Box"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/CodeFile"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A box has been run",
+            "schema": {
+              "properties":{
+                "output":{
+                  "type":"string"
+                },
+                "time":{
+                  "type":"integer"
+                }
+              }
+            }
+          }
+        }
+      } 
+    }
+  },
+  "definitions": {
+    "CodeFile": {
+      "required": [
+        "name",
+        "_id",
+        "data"
+      ],
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type":"string"
+        }
+       
+      }
+    }
+   
+  }
+}
