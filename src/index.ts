@@ -21,6 +21,13 @@ app.use(
 );
 
 app.use(Router);
+
+app.get("/", (_req, res) => {
+  res.send({
+    'message': 'welcome'
+  });
+})
+
 app.listen(PORT, () => {
     console.log("Server is running on port", PORT);
     console.log(`Find server docs at http://localhost:${PORT}/docs`);
