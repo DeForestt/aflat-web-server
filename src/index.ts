@@ -9,7 +9,7 @@ import https from "https";
 import Router from "./routes";
 
 const PORT = process.env.PORT || 8000;
-const HTTPS_PORT = process.env.HTTPS_PORT || 443;
+const HTTPS_PORT = process.env.HTTPS_PORT || 8443;
 
 const app: Application = express();
 
