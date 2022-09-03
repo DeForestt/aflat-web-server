@@ -38,7 +38,8 @@ app.listen(PORT, () => {
   });
 
 
-app.listen(HTTPS_PORT, () => {
-  console.log("Server is running on port", HTTPS_PORT);
-  console.log(`Find server docs at http://localhost:${HTTPS_PORT}/docs`);
-});
+let httpsServer = https.createServer( {}, app);
+httpsServer.listen(HTTPS_PORT, () => {
+    console.log("Server is running on port", HTTPS_PORT);
+    console.log(`Find server docs at https://localhost:${HTTPS_PORT}/docs`);
+  });
