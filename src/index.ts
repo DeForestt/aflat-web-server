@@ -28,8 +28,6 @@ const options: HTTPOptions = {
   cert: CERT ? fs.readFileSync(CERT) : undefined
 };
 
-console.log(options);
-
 const cert = CERT ? fs.readFileSync(CERT) : undefined;
 const key = KEY ? fs.readFileSync(KEY) : undefined;
 
