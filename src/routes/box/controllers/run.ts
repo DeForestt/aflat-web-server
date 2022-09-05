@@ -40,7 +40,7 @@ const runCode = async (project : AflatProject) : Promise<string> => {
         });
     }
 
-    execSync(`(cd ${boxPath}; touch './output.txt'; aflat run > './output.txt')`);
+    execSync(`(cd ${boxPath}; aflat run > './output.txt')`);
     let output : Promise<string> = fs.promises.readFile(path.join(boxPath, 'output.txt'), 'utf-8');
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
     return output;
