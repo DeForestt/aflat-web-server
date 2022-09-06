@@ -19,6 +19,7 @@ export interface AflatProject {
     main: CodeFile;
     test?: CodeFile;
     modules?: [CodeFile];
+    stdin?: string;
 }
 
 interface File {
@@ -29,7 +30,8 @@ interface File {
 const runCode = (project : AflatProject) : string => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
-    execSync(`(aflat make ${boxPath})`);
+    execSync(`(aflat make ${boxPath} & touch ${boxPath}/stdin.txt)`);
+    if (project.stdin) {};
     fs.writeFileSync(path.join(boxPath, 'src', 'main.af'), project.main.content);
 
     if (project.test) {
