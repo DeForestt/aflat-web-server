@@ -1,8 +1,8 @@
 import express from "express";
-import { execSync } from "child_process";
+import { exec, execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import {wwwroot} from "../constants"
+import {TIMEOUT, wwwroot} from "../constants"
 import {randomUUID} from "crypto"
 
 interface RunRSP {
@@ -26,7 +26,7 @@ interface File {
     data: AflatProject;
 };
 
-const runCode = async (project : AflatProject) : Promise<string> => {
+const runCode = (project : AflatProject) : string => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
     execSync(`(aflat make ${boxPath})`);
@@ -39,16 +39,21 @@ const runCode = async (project : AflatProject) : Promise<string> => {
             fs.writeFileSync(path.join(boxPath, 'src', module.name + '.af'), module.content);
         });
     }
-
-    execSync(`(cd ${boxPath}; aflat run > './output.txt')`);
-    let output : Promise<string> = fs.promises.readFile(path.join(boxPath, 'output.txt'), 'utf-8');
+    let output;
+    try {
+        const result = execSync(`(cd ${boxPath} && aflat run)`, {timeout: TIMEOUT});
+        output = result.toString();
+    } catch (err) {
+        output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
+    }
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
+
     return output;
 };
 
-const Run = async (_req : express.Request) : Promise<RunRSP> => {
+const Run = (_req : express.Request) : RunRSP => {
     const file : File = _req.body;
-    const output: string = await runCode(file.data);
+    const output: string = runCode(file.data);
     return {
         output: output,
         milis: 0

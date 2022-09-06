@@ -8,8 +8,8 @@ router.get("/", async (_req, res) => {
   return res.send(response);
 });
 
-router.post("/run",async (_req, res) => {
-  const response = await Run(_req);
+router.post("/run", (_req, res) => {
+  const response = Run(_req);
   return res.send(response);
 });
 
