@@ -30,7 +30,7 @@ interface File {
 const runCode = (project : AflatProject) : string => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
-    execSync(`(aflat make ${boxPath} & touch ${boxPath}/stdin.txt)`);
+    execSync(`(aflat make ${boxPath}; touch ${boxPath}/stdin.txt)`);
 
     if (project.stdin) {
         fs.writeFileSync(path.join(boxPath, 'stdin.txt'), project.stdin);
@@ -51,9 +51,10 @@ const runCode = (project : AflatProject) : string => {
     let output;
     
     try {
-        const result = execSync(`(cd ${boxPath} &&  cat stdin.txt > aflat run)`, {timeout: TIMEOUT});
+        const result = execSync(`(cd ${boxPath} &&  aflat run < stdin.txt)`, {timeout: TIMEOUT});
         output = result.toString();
     } catch (err) {
+        console.log(err);
         output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
     }
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
