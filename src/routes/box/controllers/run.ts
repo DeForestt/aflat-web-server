@@ -31,15 +31,19 @@ const runCode = (project : AflatProject) : string => {
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
     execSync(`(aflat make ${boxPath})`);
     fs.writeFileSync(path.join(boxPath, 'src', 'main.af'), project.main.content);
+
     if (project.test) {
         fs.writeFileSync(path.join(boxPath, 'test', 'test.af'), project.test.content);
     }
+    
     if (project.modules) {
         project.modules.forEach((module) => {
             fs.writeFileSync(path.join(boxPath, 'src', module.name + '.af'), module.content);
         });
     }
+
     let output;
+    
     try {
         const result = execSync(`(cd ${boxPath} && aflat run)`, {timeout: TIMEOUT});
         output = result.toString();
