@@ -18,7 +18,8 @@ export interface CodeFile {
 export interface AflatProject {
     main: CodeFile;
     test?: CodeFile;
-    modules ?: [CodeFile];
+    modules?: [CodeFile];
+    stdin?: string;
 }
 
 interface File {
@@ -29,21 +30,31 @@ interface File {
 const runCode = (project : AflatProject) : string => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
-    execSync(`(aflat make ${boxPath})`);
+    execSync(`(aflat make ${boxPath}; touch ${boxPath}/stdin.txt)`);
+
+    if (project.stdin) {
+        fs.writeFileSync(path.join(boxPath, 'stdin.txt'), project.stdin);
+    };
+
     fs.writeFileSync(path.join(boxPath, 'src', 'main.af'), project.main.content);
+
     if (project.test) {
         fs.writeFileSync(path.join(boxPath, 'test', 'test.af'), project.test.content);
     }
+    
     if (project.modules) {
         project.modules.forEach((module) => {
             fs.writeFileSync(path.join(boxPath, 'src', module.name + '.af'), module.content);
         });
     }
+
     let output;
+    
     try {
-        const result = execSync(`(cd ${boxPath} && aflat run)`, {timeout: TIMEOUT});
+        const result = execSync(`(cd ${boxPath} &&  aflat run < stdin.txt)`, {timeout: TIMEOUT});
         output = result.toString();
     } catch (err) {
+        console.log(err);
         output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
     }
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
