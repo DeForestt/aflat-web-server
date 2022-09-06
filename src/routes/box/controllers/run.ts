@@ -31,7 +31,11 @@ const runCode = (project : AflatProject) : string => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
     execSync(`(aflat make ${boxPath} & touch ${boxPath}/stdin.txt)`);
-    if (project.stdin) {};
+
+    if (project.stdin) {
+        fs.writeFileSync(path.join(boxPath, 'stdin.txt'), project.stdin);
+    };
+
     fs.writeFileSync(path.join(boxPath, 'src', 'main.af'), project.main.content);
 
     if (project.test) {
@@ -47,7 +51,7 @@ const runCode = (project : AflatProject) : string => {
     let output;
     
     try {
-        const result = execSync(`(cd ${boxPath} && aflat run)`, {timeout: TIMEOUT});
+        const result = execSync(`(cd ${boxPath} &&  cat stdin.txt > aflat run)`, {timeout: TIMEOUT});
         output = result.toString();
     } catch (err) {
         output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
