@@ -31,4 +31,6 @@ jobs:
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST 'bash ~/deploy.sh'
+        echo -e "Host $REMOTE_HOST"
+        echo -e "User $REMOTE_USER"
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $REMOTE_USER@$REMOTE_HOST 'bash -s' < ./deploy.sh
