@@ -1,5 +1,8 @@
-jobs:
+name: NODE CI
+#run on 
+on: [push]
 
+jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
