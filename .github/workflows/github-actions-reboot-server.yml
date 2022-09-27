@@ -1,0 +1,23 @@
+name: Reboot Server
+# Reboot server every 12 hours
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+jobs:
+  reboot:
+    name: Reboot Server
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Server 1
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        REMOTE_HOST: ${{ secrets.HOST_DNS }}
+        REMOTE_USER: ${{ secrets.USERNAME }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > private_key
+        chmod 600 private_key
+
+        ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} 'sudo reboot'
