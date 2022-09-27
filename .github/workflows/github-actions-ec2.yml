@@ -27,14 +27,8 @@ jobs:
       REMOTE_USER: ${ { secrets.USERNAME } }
     steps:
     - name: Deploy to Server 1
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ env.REMOTE_HOST }}
-        username: ${{ env.REMOTE_USER }}
-        key: ${{ env.SSH_PRIVATE_KEY }}
-        script: |
-          cd /home/ubuntu/aflat-web-server
-          git pull
-          npm install
-          npm run build
-          pm2 restart all
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST 'bash ~/deploy.sh'
