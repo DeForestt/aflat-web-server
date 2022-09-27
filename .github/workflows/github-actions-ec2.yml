@@ -17,12 +17,12 @@ jobs:
       - name: Build
         run: npm run build
 
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
     - name: Deploy to Server 1
     env:
       SSH_PRIVATE_KEY: ${ { secrets.EC2_SSH_KEY } }
