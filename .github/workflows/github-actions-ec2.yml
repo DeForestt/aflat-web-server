@@ -1,6 +1,6 @@
-name: NODE CI
+name: EC2 Deploy
 #run on 
-on: [push]
+on: [workflow_dispatch]
 
 jobs:
   build:
