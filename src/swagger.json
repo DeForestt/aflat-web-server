@@ -34,11 +34,11 @@
         "description": "Create new user in system",
         "parameters": [
           {
-            "name": "user",
+            "name": "Run Box",
             "in": "body",
-            "description": "User that we want to create",
+            "description": "Run some aflat code on the server",
             "schema": {
-              "$ref": "#/definitions/CodeFile"
+              "$ref": "#/definitions/BoxRun"
             }
           }
         ],
@@ -53,7 +53,7 @@
                 "output":{
                   "type":"string"
                 },
-                "time":{
+                "milis":{
                   "type":"integer"
                 }
               }
@@ -64,26 +64,47 @@
     }
   },
   "definitions": {
-    "CodeFile": {
+    "BoxRun": {
       "required": [
-        "name",
-        "_id",
         "data"
       ],
       "properties": {
-        "_id": {
-          "type": "integer",
-          "uniqueItems": true
-        },
-        "name": {
-          "type": "string"
-        },
         "data": {
+          "required": [
+            "main",
+            "id"
+          ],
+          "type":"object",
+          "properties" : {
+            "_id": {
+              "type": "integer",
+              "example": 0,
+              "uniqueItems": true
+            },
+            "main" : {
+                  "required": [
+                    "name",
+                    "content"
+                  ],
+                  "type":"object",
+                  "properties" : {
+                      "name" : {
+                          "example": "main",
+                          "type":"string"
+                      },
+                      "content" : {
+                          "type":"string",
+                          "example": "import * from \"io\" under io; int main() { io.print(\"Hello World\"); return 0; };"
+                      }
+                  }
+            }
+          }
+        },
+        "stdin": {
           "type":"string"
         }
-       
       }
     }
-   
+
   }
 }
