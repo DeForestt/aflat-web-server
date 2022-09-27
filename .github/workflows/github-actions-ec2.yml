@@ -29,7 +29,7 @@ jobs:
         REMOTE_USER: ${{ secrets.USERNAME }}
       run: |
         mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/ssh_key
-        chmod 600 ~/.ssh/ssh_key
+        echo "$SSH_PRIVATE_KEY" > private_key
+        chmod 600 private_key
 
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/ssh_key $REMOTE_USER@$REMOTE_HOST 'bash ~/deploy.sh'
+        ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} 'bash ~/deploy.sh'
