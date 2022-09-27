@@ -23,14 +23,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2 
     - name: Deploy to Server 1
     env:
       SSH_PRIVATE_KEY: ${ { secrets.EC2_SSH_KEY } }
       REMOTE_HOST: ${ { secrets.HOST_DNS } }
       REMOTE_USER: ${ { secrets.USERNAME } }
+    
     run: |
       mkdir -p ~/.ssh
       echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
       chmod 600 ~/.ssh/id_rsa
       # run the deployment script that is on the remote server
-      ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST 'bash -s' < ./deploy.sh
+      ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST 'bash -s ./deploy.sh'
