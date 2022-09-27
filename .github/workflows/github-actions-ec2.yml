@@ -21,8 +21,7 @@ jobs:
     name: Deploy to EC2
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the files
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Deploy to Server 1
       env:
         SSH_PRIVATE_KEY: ${ { secrets.EC2_SSH_KEY } }
