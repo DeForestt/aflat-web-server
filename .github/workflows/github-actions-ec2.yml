@@ -21,12 +21,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      SSH_PRIVATE_KEY: ${ { secrets.EC2_SSH_KEY } }
-      REMOTE_HOST: ${ { secrets.HOST_DNS } }
-      REMOTE_USER: ${ { secrets.USERNAME } }
     steps:
     - name: Deploy to Server 1
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        REMOTE_HOST: ${{ secrets.HOST_DNS }}
+        REMOTE_USER: ${{ secrets.USERNAME }}
       run: |
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
