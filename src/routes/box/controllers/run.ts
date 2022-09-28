@@ -9,6 +9,7 @@ import { runDockerContainer } from "../../../Modules/RunDocker";
 interface RunRSP {
     output: string;
     milis: number;
+    stderr?: string;
 }
 
 export interface CodeFile {
@@ -28,7 +29,7 @@ interface File {
     data: AflatProject;
 };
 
-const runCode = (project : AflatProject) : string => {
+const runCode = (project : AflatProject) : RunRSP => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
     let command = "run";
@@ -52,17 +53,21 @@ const runCode = (project : AflatProject) : string => {
         });
     }
 
-    let output;
+    let output : RunRSP = {
+        output: "",
+        milis: 0
+    };
     
     try {
         // const result = execSync(`(cd ${boxPath} &&  aflat ${command} < stdin.txt)`, {timeout: TIMEOUT});
         const result = runDockerContainer(boxPath, command)
-        output = result.toString();
+        output.output = result.toString();
     } catch (err) {
         // get err string from file
-        output = fs.readFileSync(path.join(boxPath, 'null')).toString();
-        console.log(`${output}\n\n${err}`);
-        output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
+        output.stderr = fs.readFileSync(path.join(boxPath, 'null')).toString();
+        output.stderr = `${output.stderr}\n\n${err}`
+        console.log(output.stderr);
+        output.output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
     }
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
 
@@ -71,11 +76,7 @@ const runCode = (project : AflatProject) : string => {
 
 const Run = (_req : express.Request) : RunRSP => {
     const file : File = _req.body;
-    const output: string = runCode(file.data);
-    return {
-        output: output,
-        milis: 0
-    }
+    return runCode(file.data);
 };
 
 export default Run
