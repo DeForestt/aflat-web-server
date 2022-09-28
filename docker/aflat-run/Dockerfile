@@ -1,9 +1,6 @@
 # create a new ubuntu image
 FROM ubuntu:latest
 
-## update apt-get repos
-RUN sed -i -e 's|disco|focal|g' /etc/apt/sources.list
-RUN apt update
 
 # install g++ cmake and git
 RUN apt-get update && apt-get install -y g++ cmake git
