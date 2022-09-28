@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  build-express:
+    name: Build Express
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,9 +20,16 @@ jobs:
       - name: Build
         run: npm run build
 
+  build-aflat:
+    name: Build Aflat
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker image
+        run: docker-compose build
 
   deploy:
-    needs: build
+    needs: [build-express, build-aflat]
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to Server 1
