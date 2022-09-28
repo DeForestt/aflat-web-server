@@ -7,7 +7,6 @@ on:
 jobs:
   reboot:
     name: Reboot Server
-    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Deploy to Server 1
