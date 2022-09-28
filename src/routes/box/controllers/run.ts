@@ -59,7 +59,9 @@ const runCode = (project : AflatProject) : string => {
         const result = runDockerContainer(boxPath, command)
         output = result.toString();
     } catch (err) {
-        console.log(err);
+        // get err string from file
+        output = fs.readFileSync(path.join(boxPath, 'null')).toString();
+        console.log(`${output}\n\n${err}`);
         output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
     }
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
