@@ -1,4 +1,4 @@
 services:
     aflat-service:
         build: ./docker/aflat-run
-        image: aflat:latest
+        image: deforestt/aflat:latest
