@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import {TIMEOUT, wwwroot} from "../constants"
 import {randomUUID} from "crypto"
+import { runDockerContainer } from "../../../Modules/RunDocker";
 
 interface RunRSP {
     output: string;
@@ -54,7 +55,8 @@ const runCode = (project : AflatProject) : string => {
     let output;
     
     try {
-        const result = execSync(`(cd ${boxPath} &&  aflat ${command} < stdin.txt)`, {timeout: TIMEOUT});
+        // const result = execSync(`(cd ${boxPath} &&  aflat ${command} < stdin.txt)`, {timeout: TIMEOUT});
+        const result = runDockerContainer(boxPath, command)
         output = result.toString();
     } catch (err) {
         console.log(err);
