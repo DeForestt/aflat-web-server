@@ -3,8 +3,15 @@ name: NODE CI
 on: [push, workflow_dispatch, pull_request]
 
 jobs:
-  build:
-    name: Build
+  build-aflat:
+    name: Build Aflat
+    runs-on: ubuntu-latest
+    steps:
+      uses: actions/checkout@v2
+      - name: Build Docker image
+        run: docker-compose build
+  build-express:
+    name: Build Express
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
