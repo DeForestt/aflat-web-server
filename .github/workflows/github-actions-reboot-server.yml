@@ -20,3 +20,9 @@ jobs:
         chmod 600 private_key
 
         ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} 'sudo reboot'
+        # wait for server to reboot
+        sleep 60
+        # check if server is up
+        until ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} 'echo "Server is up"'; do
+          sleep 5
+        done
