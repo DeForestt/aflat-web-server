@@ -1,4 +1,3 @@
-import { IModule } from './Module';
 import db from '../LowDB.js';
 
 export interface IModule {
