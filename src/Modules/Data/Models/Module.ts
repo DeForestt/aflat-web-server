@@ -18,9 +18,9 @@ export class Module {
         this._module = module;
     }
 
-    static async get(id: string) {
+    static async get(name: string) {
         db.read();
-        return db.data.modules.find((module: IModule) => module.id === id);
+        return db.data.modules.find((module: IModule) => module.name === name);
     }
 
     static async getAll() {

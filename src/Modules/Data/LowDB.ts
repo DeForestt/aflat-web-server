@@ -11,9 +11,7 @@ const file = join(dirname_, 'db.json')
 const adapter = new JSONFile(file)
 const db : Low<any> = new Low(adapter)
 
-db.read()
-
-// Set some defaults (required if your JSON file is empty)
-db.data = db.data ?? { modules: [] }
+db.read().then(() => {
+    db.data = db.data || { modules: [] } });
 db.write();
 export default db

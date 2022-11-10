@@ -112,6 +112,32 @@
             }
           }
         }
+      },
+      "get":{
+        "tags":[
+          "Modules"
+        ],
+        "description": "Get a module by name",
+        "parameters":[
+          {
+            "name":"name",
+            "in":"query",
+            "description":"The name of the module",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses":{
+          "200":{
+            "description":"A module has been found",
+            "schema":{
+              "$ref":"#/definitions/Module"
+            }
+          }
+        }
       }
     }
   },
@@ -141,12 +167,12 @@
                   "type":"object",
                   "properties" : {
                       "name" : {
-                          "example": "main",
+                          "example": "Pretty",
                           "type":"string"
                       },
                       "content" : {
                           "type":"string",
-                          "example": "import * from \"io\" under io; int main() { io.print(\"Hello World\"); return 0; };"
+                          "example": "import * from \"io\" under io; export int print() { io.print(\"Hello World\", 'r'); return 0; };"
                       }
                   }
             }
@@ -157,7 +183,7 @@
         }
       }
     },
-    "Modules": {
+    "Module": {
       "required": [
         "name",
         "description",
