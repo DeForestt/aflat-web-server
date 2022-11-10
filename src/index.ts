@@ -1,11 +1,11 @@
 import express, { Application, Request, Response } from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json"
+import swaggerDocument from "./swagger.json" assert {type : "json"};
 import cors from "cors";
 import https from "https";
 import fs from "fs";
-import Router from "./routes";
+import Router from "./routes/index.js";
 
 interface HTTPOptions {
   ca: Buffer | undefined;

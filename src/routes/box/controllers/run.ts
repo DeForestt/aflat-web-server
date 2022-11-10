@@ -2,9 +2,9 @@ import express from "express";
 import { exec, execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import {TIMEOUT, wwwroot} from "../constants"
+import {TIMEOUT, wwwroot} from "../constants.js";
 import {randomUUID} from "crypto"
-import { runDockerContainer } from "../../../Modules/RunDocker";
+import { runDockerContainer } from "../../../Modules/RunDocker.js";
 
 interface RunRSP {
     output: string;

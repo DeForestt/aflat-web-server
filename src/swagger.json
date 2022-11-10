@@ -61,7 +61,58 @@
             }
           }
         }
-      } 
+      }
+    },
+    "/modules":{
+      "post":{
+        "tags":[
+          "Modules"
+        ],
+        "description":"Create new module",
+        "parameters":[
+          {
+            "name":"Create Module",
+            "in":"body",
+            "description":"Create a new module",
+            "schema":{
+              "$ref":"#/definitions/Module"
+            }
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses":{
+          "200":{
+            "description":"A module has been created",
+            "schema":{
+              "properties":{
+                "name":{
+                  "type":"string"
+                },
+                "description":{
+                  "type":"string"
+                },
+                "code":{
+                  "type":"string"
+                },
+                "author":{
+                  "type":"string"
+                },
+                "version":{
+                  "type":"string"
+                },
+                "dependencies":{
+                  "type":"array",
+                  "items":{
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -105,7 +156,44 @@
           "type":"string"
         }
       }
+    },
+    "Modules": {
+      "required": [
+        "name",
+        "description",
+        "code",
+        "author",
+        "version",
+        "dependencies"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "io"
+        },
+        "description": {
+          "type": "string",
+          "example": "Input/Output module"
+        },
+        "code": {
+          "type": "string",
+          "example": "import * from \"io\" under io; int main() { io.print(\"Hello World\"); return 0; };"
+        },
+        "author": {
+          "type": "string",
+          "example": "Aflat"
+        },
+        "version": {
+          "type": "string",
+          "example": "1.0.0"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
-
   }
 }
