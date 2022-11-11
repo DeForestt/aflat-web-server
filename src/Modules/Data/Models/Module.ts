@@ -39,7 +39,7 @@ export class Module {
         if (query.version !== undefined) {
             modules = modules.filter((module: IModule) => module.version === query.version);
         }
-        return modules.length > 0 ? modules[0] : undefined;
+        return modules.length > 0 ? modules[modules.length - 1] : undefined;
     }
 
     static async getAll() {
