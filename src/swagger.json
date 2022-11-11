@@ -14,6 +14,10 @@
     {
       "name": "Box",
       "description": "Manage and run boxes"
+    },
+    {
+      "name": "Module",
+      "description": "create and update modules"
     }
   ],
   "schemes": [
@@ -123,7 +127,20 @@
             "name":"name",
             "in":"query",
             "description":"The name of the module",
-            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"version",
+            "in":"query",
+            "description":"The version of the module",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name":"author",
+            "in":"query",
+            "description":"The author of the module",
+            "required":false,
             "type":"string"
           }
         ],
@@ -136,6 +153,74 @@
             "schema":{
               "$ref":"#/definitions/Module"
             }
+          }
+        }
+      }
+    },
+    "/modules/{id}":{
+      "post":{
+        "tags":[
+          "Modules"
+        ],
+        "description":"post plain text as module code",
+        "consumes":[
+          "text/plain"
+        ],
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"The id of the module",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"code",
+            "in":"body",
+            "description":"The code of the module",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "produces":[
+          "text/plain"
+        ],
+        "responses":{
+          "200":{
+            "description":"A module has been updated",
+            "schema":{
+              "$ref":"#/definitions/Module"
+            }
+          }
+        }
+      },
+      "get":{
+        "tags":[
+          "Modules"
+        ],
+        "description":"Get a module by id text by id",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"The id of the module",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "produces":[
+          "text/plain"
+        ],
+        "responses":{
+          "200":{
+            "description":"A module has been found",
+            "responseType":"text/plain",
+            "schema":{
+              "type":"string"
+            }
+          },
+          "404":{
+            "description":"A module has not been found"
           }
         }
       }
@@ -187,7 +272,6 @@
       "required": [
         "name",
         "description",
-        "code",
         "author",
         "version",
         "dependencies"
@@ -200,10 +284,6 @@
         "description": {
           "type": "string",
           "example": "Input/Output module"
-        },
-        "code": {
-          "type": "string",
-          "example": "import * from \"io\" under io; int main() { io.print(\"Hello World\"); return 0; };"
         },
         "author": {
           "type": "string",
