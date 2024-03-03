@@ -3,7 +3,7 @@ FROM ubuntu:latest
 
 
 # install g++ cmake and git
-RUN apt-get update && apt-get install -y g++ cmake git
+RUN apt-get update && apt-get install -y g++ cmake git  libboost-all-dev
 
 RUN git clone http://www.github.com/DeForestt/aflat.git
 
