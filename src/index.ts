@@ -52,6 +52,12 @@ app.get("/", (_req, res) => {
   });
 })
 
+app.get("/privacy", (_req, res) => {
+  // resade privacy policy.html and send it
+  const privacyPolicy = fs.readFileSync('privacy.html', 'utf8');
+  res.send(privacyPolicy);
+});
+
 
 app.listen(PORT, () => {
     console.log("Server is running on port", PORT);
