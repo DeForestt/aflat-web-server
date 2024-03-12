@@ -59,15 +59,14 @@ const runCode = (project : AflatProject) : RunRSP => {
     };
     
     try {
-        // const result = execSync(`(cd ${boxPath} &&  aflat ${command} < stdin.txt)`, {timeout: TIMEOUT});
         const result = runDockerContainer(boxPath, command)
         output.output = result.toString();
-    } catch (err) {
+    } catch (err: any) {
         // get err string from file
         output.stderr = fs.readFileSync(path.join(boxPath, 'null')).toString();
         output.stderr = `${output.stderr}\n\n${err}`
         console.log(output.stderr);
-        output.output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
+        output.output = `Error: ${err}`;
     }
     fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
 
