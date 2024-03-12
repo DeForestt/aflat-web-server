@@ -59,7 +59,6 @@ const runCode = (project : AflatProject) : RunRSP => {
     };
     
     try {
-        // const result = execSync(`(cd ${boxPath} &&  aflat ${command} < stdin.txt)`, {timeout: TIMEOUT});
         const result = runDockerContainer(boxPath, command)
         output.output = result.toString();
     } catch (err: any) {
@@ -69,7 +68,7 @@ const runCode = (project : AflatProject) : RunRSP => {
         console.log(output.stderr);
         output.output = `Error: ${err}`;
     }
-    // fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
+    fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
 
     return output;
 };
