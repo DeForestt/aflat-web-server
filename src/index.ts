@@ -6,6 +6,9 @@ import cors from "cors";
 import https from "https";
 import fs from "fs";
 import Router from "./routes/index.js";
+import { setDockerCleanupInterval } from "./Modules/RunDocker.js";
+
+setDockerCleanupInterval();
 
 interface HTTPOptions {
   ca: Buffer | undefined;
