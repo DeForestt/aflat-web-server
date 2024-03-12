@@ -1,10 +1,7 @@
 import express from "express";
 import Run from "./controllers/run.js";
-import { setDockerCleanupInterval } from "Modules/RunDocker.js";
 
 const router = express.Router();
-
-setDockerCleanupInterval();
 
 router.get("/", async (_req, res) => {
   const response = {'testBox': 'testing'};
