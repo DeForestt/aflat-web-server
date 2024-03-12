@@ -32,11 +32,9 @@ interface File {
 const runCode = (project : AflatProject) : RunRSP => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
-    console.log(boxPath);
     let command = "run";
     execSync(`(aflat make ${boxPath}; touch ${boxPath}/stdin.txt)`);
 
-    console.log(project);
     if (project.stdin) {
         fs.writeFileSync(path.join(boxPath, 'stdin.txt'), project.stdin);
     };
