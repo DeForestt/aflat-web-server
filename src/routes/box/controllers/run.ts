@@ -32,9 +32,11 @@ interface File {
 const runCode = (project : AflatProject) : RunRSP => {
     const boxID = randomUUID();
     const boxPath = path.join(wwwroot, 'Boxes', boxID);
+    console.log(boxPath);
     let command = "run";
     execSync(`(aflat make ${boxPath}; touch ${boxPath}/stdin.txt)`);
 
+    console.log(project);
     if (project.stdin) {
         fs.writeFileSync(path.join(boxPath, 'stdin.txt'), project.stdin);
     };
@@ -62,14 +64,14 @@ const runCode = (project : AflatProject) : RunRSP => {
         // const result = execSync(`(cd ${boxPath} &&  aflat ${command} < stdin.txt)`, {timeout: TIMEOUT});
         const result = runDockerContainer(boxPath, command)
         output.output = result.toString();
-    } catch (err) {
+    } catch (err: any) {
         // get err string from file
         output.stderr = fs.readFileSync(path.join(boxPath, 'null')).toString();
         output.stderr = `${output.stderr}\n\n${err}`
         console.log(output.stderr);
-        output.output = `Program timed out... maximum execution time is ${TIMEOUT} miliseconds`;
+        output.output = `Error: ${err}`;
     }
-    fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
+    // fs.rm(boxPath, {recursive: true} ,err => { if (err) return console.log(err)});
 
     return output;
 };
