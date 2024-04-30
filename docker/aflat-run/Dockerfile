@@ -12,7 +12,6 @@ RUN mkdir build
 RUN mkdir bin
 WORKDIR /aflat/build
 RUN cmake ..
-RUN make
 WORKDIR /aflat/
 RUN bash rebuild-libs.sh
 RUN mkdir /project
