@@ -10,8 +10,6 @@ RUN git clone http://www.github.com/DeForestt/aflat.git
 WORKDIR /aflat
 RUN mkdir build
 RUN mkdir bin
-WORKDIR /aflat/build
-RUN cmake ..
 RUN make
 WORKDIR /aflat/
 RUN bash rebuild-libs.sh
